@@ -24,7 +24,6 @@ uploadArchives {
       }
       pom.project {
         name "${project.name}"
-        println("${project.projectDescription}")
         description "${project.projectDescription}"
         url "https://github.com/BraintagsGmbH/${rootProject.githubProjectName}"
         scm {
