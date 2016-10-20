@@ -83,6 +83,8 @@ clean {
 javadoc {
   dependsOn annotationProcessing
   exclude '**/package-info.java'
+  exclude '**/impl/*'
+  include 'de/braintags/**/*.java'
   destinationDir file(docsDir.absolutePath + '/apidocs')
 }
  javadocJar {
