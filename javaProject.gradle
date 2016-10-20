@@ -23,9 +23,6 @@ buildscript {
     maven {
       url 'https://plugins.gradle.org/m2/'
     }
-    maven {
-        url 'http://172.16.41.10/nexus/content/groups/public/'
-    }
   }
   dependencies {
     classpath "com.netflix.nebula:gradle-dependency-lock-plugin:4.3.0"
@@ -33,11 +30,17 @@ buildscript {
 }
 
 allprojects {
-    repositories {
-        maven {
-            url 'http://172.16.41.10/nexus/content/groups/public/'
-        }
-    }
+  repositories {
+      // private company repo makes no sense in an opensource environment
+      if(useCompanyRepo) { // set useCompanyRepo=true in ~/.gradle/gradle.properties to use
+          maven {
+              url "http://maven.bt-wl.net/nexus/content/groups/public/"
+          }
+      }
+
+      mavenCentral()
+      jcenter()
+  }
 }
 apply plugin: nebula.plugin.dependencylock.DependencyLockPlugin
 

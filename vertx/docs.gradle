@@ -19,7 +19,7 @@ buildscript {
 task annotationProcessing(type: JavaCompile, group: 'build', description: 'Process the sources using the vertx CodeGenProcessor and DocGenProcessor') { // codegen
   source = sourceSets.main.java
   classpath = configurations.compile + configurations.provided
-  destinationDir = project.file('src/main/generated')
+  destinationDir = new File(buildDir, 'generated')
   options.compilerArgs = [
    "-XDignore.symbol.file",
    "-Adocgen.output=${asciidocDir}/\$lang",
@@ -54,9 +54,13 @@ asciidoctor {
   dependsOn annotationProcessing
   sourceDir = asciidocDir
   outputDir = aritfactDocsDir
-  attributes 'source-highlighter': 'coderay'
-  //preserveDirectories true
-  //relativeBaseDir true
+  attributes 'source-highlighter': 'coderay',
+              numbered: '',
+              toc: 'left',
+              toclevels: '3',
+              'version': project.version
+  separateOutputDirs false
+
   backends 'html5'
   options doctype: 'book'
 }
@@ -79,7 +83,6 @@ clean {
 javadoc {
   dependsOn annotationProcessing
   exclude '**/package-info.java'
-  //exclude '**/impl/**'
   destinationDir file(docsDir.absolutePath + '/apidocs')
 }
  javadocJar {
