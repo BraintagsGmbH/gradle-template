@@ -9,6 +9,7 @@ ext.githubProjectName = rootProject.name // Set this if Project name is not gith
 // properties
 def skipDoc            = rootProject.hasProperty('skipDoc')?rootProject.skipDoc:'false'
 def javadocFileInclude = rootProject.hasProperty('javadocFileInclude')?rootProject.javadocFileInclude:'de/braintags/**/*.java'
+def useCompanyRepo     = rootProject.hasProperty('useCompanyRepo')?rootProject.useCompanyRepo:false
 
 // set git version hash
 def versionOut = new ByteArrayOutputStream()
