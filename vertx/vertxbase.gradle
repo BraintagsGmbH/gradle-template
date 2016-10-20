@@ -14,7 +14,7 @@ configurations.all {
         }
     }
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'de.braintags') {
+        if (details.requested.group == 'de.braintags' && details.requested.version == '+') {
             details.useVersion btVertxVersion
         }
     }
