@@ -1,0 +1,59 @@
+apply from: rootDir.path + '/gradle/javaProject.gradle'
+
+def vertxVersion      = rootProject.hasProperty('vertxVersion')?rootProject.vertxVersion:''
+def btVertxVersion    = rootProject.hasProperty('btVertxVersion')?rootProject.btVertxVersion:''
+
+configurations {
+    provided
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'io.vertx') {
+            details.useVersion vertxVersion
+        }
+    }
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'de.braintags') {
+            details.useVersion btVertxVersion
+        }
+    }
+}
+
+sourceSets {
+    main.compileClasspath += configurations.provided
+    test.compileClasspath += configurations.provided
+    test.runtimeClasspath += configurations.provided
+}
+
+dependencies {
+  compile group: 'io.vertx', name:'vertx-core', version:'+'
+  testCompile group: 'io.vertx', name:'vertx-core', version:'+', classifier:'tests'
+  testCompile group: 'io.vertx', name:'vertx-unit', version:'+'
+  compile group: 'io.vertx', name: 'vertx-docgen', version:'+'
+  compile group: 'io.vertx', name: 'vertx-dependencies', version:'+'
+
+  provided group: 'io.vertx', name:'vertx-codegen', version:'+'
+  provided group: 'io.vertx', name:'vertx-docgen', version:'+'
+  provided group: 'io.vertx', name:'vertx-codetrans', version:'+'
+  provided group: 'io.vertx', name:'vertx-rx-java', version:'+'
+  provided group: 'io.vertx', name:'vertx-lang-groovy', version:'+'
+  provided group: 'io.vertx', name:'vertx-lang-js', version:'+'
+  provided group: 'io.vertx', name:'vertx-lang-ruby', version:'+'
+}
+
+apply from: file(rootDir.path + '/gradle/vertx/docs.gradle')
+
+compileJava {
+  dependsOn annotationProcessing
+}
+
+test {
+  exclude '**/BtVertxTestBase.class'
+}
+
+sonarqube {
+  properties {
+    property 'sonar.projectKey', project.group + '.vertx:' + project.artifactid
+}
+}

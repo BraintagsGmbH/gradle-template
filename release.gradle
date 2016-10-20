@@ -1,0 +1,33 @@
+buildscript {
+  repositories {
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
+  }
+  dependencies {
+    classpath "net.researchgate:gradle-release:2.4.0"
+  }
+}
+
+apply plugin: net.researchgate.release.ReleasePlugin
+
+release {
+  preTagCommitMessage = '[Release]: '
+  tagCommitMessage = '[Release]: creating tag '
+  newVersionCommitMessage = '[Release]: new snapshot version '
+  failOnPublishNeeded=false
+  failOnCommitNeeded=false
+}
+
+beforeReleaseBuild {
+  // Remove the hash for release.useAutomaticVersion to work in CI
+  version = version.replaceAll(/([^-]*)-\d*-\d*-\d*_[^-]*(-SNAPSHOT)?/) {all, version, snapshot ->
+      version = version+snapshot
+     }
+}
+
+// call Soanaqube before release
+beforeReleaseBuild.dependsOn project.tasks["sonarqube"]
+
+// Upload archives as part of release process
+afterReleaseBuild.dependsOn uploadArchives
