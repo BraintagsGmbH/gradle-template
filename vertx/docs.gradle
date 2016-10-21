@@ -3,8 +3,8 @@ def docsDir           = rootProject.hasProperty('docsDir')?rootProject.docsDir:f
 def aritfactDocsDir   = rootProject.hasProperty('aritfactDocsDir')?rootProject.aritfactDocsDir:file(docsDir.absolutePath + '/' + project.artifactid)
 def asciidocDir       = rootProject.hasProperty('asciidocDir')?rootProject.asciidocDir:file(docsDir.absolutePath + '/asciidoc')
 def skipDoc           = rootProject.hasProperty('skipDoc')?rootProject.skipDoc:'false'
-def skipJsDoc         = rootProject.hasProperty('skipJsDoc')?rootProject.skipJsDoc:'false'
-def skipGroovyDoc     = rootProject.hasProperty('skipGroovyDoc')?rootProject.skipGroovyDoc:'false'
+def skipJsDoc         = rootProject.hasProperty('skipJsDoc')?rootProject.skipJsDoc:'true'
+def skipGroovyDoc     = rootProject.hasProperty('skipGroovyDoc')?rootProject.skipGroovyDoc:'true'
 buildscript {
   repositories {
     maven {
