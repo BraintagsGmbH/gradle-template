@@ -1,8 +1,10 @@
 // properties
 def docsDir           = rootProject.hasProperty('docsDir')?rootProject.docsDir:file(project.projectDir.absolutePath + '/src/docs')
-def aritfactDocsDir   = rootProject.hasProperty('aritfactDocsDir')?rootProject.aritfactDocsDir:file(docsDir.absolutePath + project.artifactid)
+def aritfactDocsDir   = rootProject.hasProperty('aritfactDocsDir')?rootProject.aritfactDocsDir:file(docsDir.absolutePath + '/' + project.artifactid)
 def asciidocDir       = rootProject.hasProperty('asciidocDir')?rootProject.asciidocDir:file(docsDir.absolutePath + '/asciidoc')
-
+def skipDoc           = rootProject.hasProperty('skipDoc')?rootProject.skipDoc:'false'
+def skipJsDoc         = rootProject.hasProperty('skipJsDoc')?rootProject.skipJsDoc:'false'
+def skipGroovyDoc     = rootProject.hasProperty('skipGroovyDoc')?rootProject.skipGroovyDoc:'false'
 buildscript {
   repositories {
     maven {
@@ -35,19 +37,18 @@ task annotationProcessing(type: JavaCompile, group: 'build', description: 'Proce
 apply plugin: com.eriwen.gradle.js.JsPlugin
 
 task jsdocs (type: com.eriwen.gradle.js.tasks.JsDocTask){
-    source =sourceSets.main.resources.srcDirs
+    source = sourceSets.main.resources.srcDirs
     destinationDir = file(aritfactDocsDir.path + '/js/jsdoc')
     //options.options = ['--recurse']
 }
-
-jsdocs.onlyIf {skipDoc == 'false'}
+jsdocs.onlyIf {skipDoc == 'false' && skipJsDoc == 'false'}
 
 apply plugin: 'groovy'
 groovydoc {
   destinationDir = file(aritfactDocsDir.path + '/groovy/groovydoc')
   includes = ['**/*.groovy']
 }
-groovydoc.onlyIf {skipDoc == 'false'}
+groovydoc.onlyIf {skipDoc == 'false' && skipGroovyDoc == 'false'}
 
 apply plugin: org.asciidoctor.gradle.AsciidoctorPlugin
 asciidoctor {
@@ -66,20 +67,6 @@ asciidoctor {
 }
 asciidoctor.onlyIf {skipDoc == 'false'}
 
-task packageSource(type: Zip, group: 'documentation', description: 'Package all documentation for the project into a zip file'){
-  dependsOn annotationProcessing
-  dependsOn groovydoc
-  dependsOn javadoc
-  dependsOn asciidoctor
-  dependsOn jsdocs
-  includes = [asciidocDir.path, javadoc.destinationDir.path]
-}
-
-clean {
-  delete project.projectDir.absolutePath+ '/src/main/generated'
-  delete docsDir
-}
-
 javadoc {
   dependsOn annotationProcessing
   exclude '**/package-info.java'
@@ -90,3 +77,25 @@ javadoc {
  javadocJar {
      from javadoc.destinationDir // We need to reset this since we changed the output dir
  }
+
+task packageSource(type: Zip, group: 'documentation', description: 'Package all documentation for the project into a zip file'){
+  dependsOn annotationProcessing
+  dependsOn groovydoc
+  dependsOn javadoc
+  dependsOn asciidoctor
+  dependsOn jsdocs
+  from asciidocDir.parent
+  from javadoc.destinationDir.parent
+  from aritfactDocsDir.parent
+  classifier = 'docs'
+  destinationDir = file(project.buildDir.absolutePath +'/libs')
+}
+
+artifacts {
+  archives packageSource
+}
+
+clean {
+  delete project.projectDir.absolutePath+ '/src/main/generated'
+  delete docsDir
+}
