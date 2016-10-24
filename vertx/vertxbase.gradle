@@ -2,7 +2,7 @@ apply from: rootDir.path + '/gradle/javaProject.gradle'
 
 def vertxVersion      = rootProject.hasProperty('vertxVersion')?rootProject.vertxVersion:''
 def btVertxVersion    = rootProject.hasProperty('btVertxVersion')?rootProject.btVertxVersion:''
-
+def multiProject      = rootProject.hasProperty('multiProject')?rootProject.multiProject:false
 configurations {
     provided
 }
@@ -52,13 +52,11 @@ test {
   exclude '**/BtVertxTestBase.class'
 }
 
-gradle.taskGraph.whenReady { graph ->
-    if (graph.hasTask('sonarqube')) {
-      sonarqube {
-        properties {
-          property 'sonar.projectKey', project.group + '.vertx:' + rootProject.artifactid
-          property 'sonar.useWsCache', 'true'
-        }
-      }
+if (!multiProject) {
+  sonarqube {
+    properties {
+      property 'sonar.projectKey', project.group + '.vertx:' + rootProject.artifactid
+      property 'sonar.useWsCache', 'true'
     }
+  }
 }
