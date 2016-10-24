@@ -26,23 +26,17 @@ test {
   testLogging.showStandardStreams = true
 
   // set heap size for the test JVM(s)
-  minHeapSize = "128m"
-  maxHeapSize = "1200M"
+  minHeapSize = '128m'
+  maxHeapSize = '1200M'
 
   jvmArgs '-server'
 
   // listen to events in the test execution lifecycle
   beforeTest { descriptor ->
-     logger.lifecycle("Running test: " + descriptor)
+     logger.lifecycle('Running test: ' + descriptor)
   }
-
 
   include '**/*TestAll*'
-
-  // listen to standard out and standard error of the test JVM(s)
-  onOutput { descriptor, event ->
-     logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
-  }
 
 }
 test.onlyIf {skipTests == 'false'}
