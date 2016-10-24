@@ -22,14 +22,14 @@ task annotationProcessing(type: JavaCompile, group: 'build', description: 'Proce
   classpath = configurations.compile + configurations.provided
   destinationDir = new File(buildDir, 'generated')
   options.compilerArgs = [
-   '-XDignore.symbol.file',
-   '-Adocgen.output=${asciidocDir}/\$lang',
-   '-Amaven.groupId=${project.group}',
-   '-Amaven.artifactId=${project.artifactid}',
-   '-Amaven.version=${project.version}',
-   '-proc:only',
-   '-processor', 'io.vertx.codegen.CodeGenProcessor,io.vertx.docgen.JavaDocGenProcessor,io.vertx.docgen.DocGenProcessor',
-   '-AoutputDirectory=${project.projectDir}/src/main'
+   "-XDignore.symbol.file",
+   "-Adocgen.output=${asciidocDir}/\$lang",
+   "-Amaven.groupId=${project.group}",
+   "-Amaven.artifactId=${project.artifactid}",
+   "-Amaven.version=${project.version}",
+   "-proc:only",
+   "-processor", "io.vertx.codegen.CodeGenProcessor,io.vertx.docgen.JavaDocGenProcessor,io.vertx.docgen.DocGenProcessor",
+   "-AoutputDirectory=${project.projectDir}/src/main"
   ]
 }
 
