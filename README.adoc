@@ -1,3 +1,102 @@
 = gradle-template
 
 Gradle files for usage as base scripts for java and vertx projects
+
+== Setup
+To start using these templates just include this repository as a git submodule:
+
+`git submodule add https://github.com/BraintagsGmbH/gradle-template gradle`
+
+Then start using the `javaProject.gradle` or `vertxbase.gradle` in your main gradle script.
+
+== settings
+You can set the following settings in the `gradle.properties` file to customize the build behaviour
+
+|===
+| Key | Description | Default Value
+
+|sourceCompatibility
+|Set the source compatibility of the java compiler
+|8
+
+|targetCompatibility
+|Set the target compatibility of the java compiler
+|8
+
+|sourceEncoding
+|Set the source encoding of the java files
+|UTF-8
+
+|skipDoc
+|Skip documentation generation
+|false
+
+|javadocFileInclude
+|Files to include in javadoc
+|de/braintags/**/*.java
+
+|multiProject
+|Is this a multi project ?
+|false
+
+|skipSonar
+|skip SonarQube analysis
+|false
+
+|skipTests
+|skip the tests
+|false
+
+|skipTestJar
+|skip creation of testjar
+|false
+
+|ignoreFailedTests
+|should the test task fail if any test fails?
+|false
+
+|===
+
+=== Vertx based projects
+Additionally you can need to set the follwing properties for vertx projects
+
+[horizontal]
+vertxVersion:: Version of the vertx stack
+btVertxVersion:: Version of the Braintags vertx projects
+
+== Multi Projects
+Multi projects need some additional configuration, you need to set `multiProject` to `true`. Also you need to include some of the gradle files in the rootProject gradle file:
+
+[source,java]
+----
+apply from: file(rootDir.path + '/gradle/sonar.gradle')
+apply from: file(rootDir.path + '/gradle/maven.gradle')
+apply from: file(rootDir.path + '/gradle/release.gradle')
+----
+
+For an example configuration have a look at the link:https://github.com/BraintagsGmbH/vertx-pojo-mapper[vertx-pojo-mapper] project.
+
+== Global config
+Some things need to be set in your global `gradle.properties` which is located in your `$GRADLE_USER_HOME`.
+
+An example content is provided below :
+
+[source,groovy]
+----
+signing.keyId             = <Your key id>
+signing.password          = <Your key password>
+signing.secretKeyRingFile = <Path to key ring>
+
+sonatypeUsername          = <SonarQube username>
+sonatypePassword          = <SonarQube password>
+systemProp.sonar.host.url = <SonarQube Host Url>
+
+mailClientUserName = <Username for test mail server>
+mailClientPassword = <Password for test mail server>
+
+systemProp.MySqlDataStoreContainer.host     = <MySql server host>
+systemProp.MySqlDataStoreContainer.username = <MySql server username>
+systemProp.MySqlDataStoreContainer.password = <MySql server password>
+
+useCompanyRepo = <Use the company repo?>
+----
