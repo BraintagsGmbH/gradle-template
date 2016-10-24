@@ -16,7 +16,7 @@ def multiProject       = rootProject.hasProperty('multiProject')?rootProject.mul
 def versionOut = new ByteArrayOutputStream()
 exec {
     workingDir =  project.projectDir
-    commandLine "git", "log" ,"-n" ,"1" , "--date=short","--no-merges", "--pretty=%cd_%h", '.'
+    commandLine 'git', 'log' ,'-n' ,'1' , '--date=short','--no-merges', '--pretty=%cd_%h', '.'
     standardOutput = versionOut
 }
 
@@ -27,72 +27,66 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.netflix.nebula:gradle-dependency-lock-plugin:4.3.0"
+    classpath 'com.netflix.nebula:gradle-dependency-lock-plugin:4.3.0'
   }
 }
 
 
-  repositories {
-      // private company repo makes no sense in an opensource environment
-      if(useCompanyRepo) { // set useCompanyRepo=true in ~/.gradle/gradle.properties to use
-          maven {
-              url "http://maven.bt-wl.net/nexus/content/groups/public/"
-          }
-      }
-      mavenCentral()
-      jcenter()
+repositories {
+  // private company repo makes no sense in an opensource environment
+  if(useCompanyRepo) { // set useCompanyRepo=true in ~/.gradle/gradle.properties to use
+    maven {
+      url 'http://maven.bt-wl.net/nexus/content/groups/public/'
+    }
   }
+  mavenCentral()
+  jcenter()
+}
 
 apply plugin: nebula.plugin.dependencylock.DependencyLockPlugin
 
 dependencyLock {
-    globalLockFile = project.rootDir.toURI().relativize(new File(projectDir.getAbsolutePath() + '/global.lock').toURI()).getPath()
+  globalLockFile = project.rootDir.toURI().relativize(new File(projectDir.getAbsolutePath() + '/global.lock').toURI()).getPath()
 }
-
-// if (version.contains("SNAPSHOT")){
-//   version = version.replace('SNAPSHOT', versionOut.toString().trim() + '-SNAPSHOT')
-// }
-
 
 apply from: file(rootDir.path + '/gradle/test.gradle')
 apply from: file(rootDir.path + '/gradle/maven.gradle')
-if (!multiProject) { // This need to be applied in the root project
 
+if (!multiProject) { // This need to be applied in the root project
   apply from: file(rootDir.path + '/gradle/sonar.gradle')
   apply from: file(rootDir.path + '/gradle/release.gradle')
 }
 
-
 ext.sharedManifest = manifest {
-    attributes("Implementation-Title": project.artifactid,
-               "Implementation-Version": version)
+  attributes('Implementation-Title': project.artifactid,
+             'Implementation-Version': version)
 }
 
 javadoc {
-	  source = sourceSets.main.allJava
-    classpath = project.sourceSets.main.compileClasspath
-    include javadocFileInclude
-    failOnError = false
-    options.addStringOption('-quiet')
+  source = sourceSets.main.allJava
+  classpath = project.sourceSets.main.compileClasspath
+  include javadocFileInclude
+  failOnError = false
+  options.addStringOption('-quiet')
 }
 javadoc.onlyIf {skipDoc == 'false'}
 
 task javadocJar(type: Jar, dependsOn: javadoc, group: 'distribution', description: 'Create a jar containing all the javadocs'){
-    manifest = project.manifest {
-      from sharedManifest
-    }
-    from javadoc.destinationDir
-    classifier = 'javadoc'
-    extension 'jar'
+  manifest = project.manifest {
+    from sharedManifest
+  }
+  from javadoc.destinationDir
+  classifier = 'javadoc'
+  extension 'jar'
 }
 javadocJar.onlyIf {skipDoc == 'false'}
 
 jar {
-    manifest = project.manifest {
-        from sharedManifest
-    }
-    exclude '/docoverride/**'
-    exclude '/examples/**'
+  manifest = project.manifest {
+    from sharedManifest
+  }
+  exclude '/docoverride/**'
+  exclude '/examples/**'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes, group: 'distribution', description: 'Create a jar containing all the sources') {
@@ -104,13 +98,13 @@ task sourcesJar(type: Jar, dependsOn: classes, group: 'distribution', descriptio
 }
 
 artifacts {
-    archives sourcesJar
-    archives jar
-    archives testjar
-    archives javadocJar
+  archives sourcesJar
+  archives jar
+  archives testjar
+  archives javadocJar
 }
 
 // Generate wrapper, which is distributed as part of source to alleviate the need of installing gradle
 task createWrapper(type: Wrapper) {
-    gradleVersion = '3.1'
+  gradleVersion = '3.1'
 }

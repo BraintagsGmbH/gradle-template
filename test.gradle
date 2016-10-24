@@ -31,13 +31,7 @@ test {
 
   jvmArgs '-server'
 
-  // listen to events in the test execution lifecycle
-  beforeTest { descriptor ->
-     logger.lifecycle('Running test: ' + descriptor)
-  }
-
   include '**/*TestAll*'
-
 }
 test.onlyIf {skipTests == 'false'}
 
