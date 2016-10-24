@@ -8,13 +8,12 @@ def skipGroovyDoc     = rootProject.hasProperty('skipGroovyDoc')?rootProject.ski
 buildscript {
   repositories {
     maven {
-      url "https://plugins.gradle.org/m2/"
+      url 'https://plugins.gradle.org/m2/'
     }
-
   }
   dependencies {
     classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-    classpath "com.eriwen:gradle-js-plugin:2.14.1"
+    classpath 'com.eriwen:gradle-js-plugin:2.14.1'
   }
 }
 
@@ -23,23 +22,23 @@ task annotationProcessing(type: JavaCompile, group: 'build', description: 'Proce
   classpath = configurations.compile + configurations.provided
   destinationDir = new File(buildDir, 'generated')
   options.compilerArgs = [
-   "-XDignore.symbol.file",
-   "-Adocgen.output=${asciidocDir}/\$lang",
-   "-Amaven.groupId=${project.group}",
-   "-Amaven.artifactId=${project.artifactid}",
-   "-Amaven.version=${project.version}",
-    "-proc:only",
-    "-processor", "io.vertx.codegen.CodeGenProcessor,io.vertx.docgen.JavaDocGenProcessor,io.vertx.docgen.DocGenProcessor",
-    "-AoutputDirectory=${project.projectDir}/src/main"
+   '-XDignore.symbol.file',
+   '-Adocgen.output=${asciidocDir}/\$lang',
+   '-Amaven.groupId=${project.group}',
+   '-Amaven.artifactId=${project.artifactid}',
+   '-Amaven.version=${project.version}',
+   '-proc:only',
+   '-processor', 'io.vertx.codegen.CodeGenProcessor,io.vertx.docgen.JavaDocGenProcessor,io.vertx.docgen.DocGenProcessor',
+   '-AoutputDirectory=${project.projectDir}/src/main'
   ]
 }
 
 apply plugin: com.eriwen.gradle.js.JsPlugin
 
 task jsdocs (type: com.eriwen.gradle.js.tasks.JsDocTask){
-    source = sourceSets.main.resources.srcDirs
-    destinationDir = file(aritfactDocsDir.path + '/js/jsdoc')
-    //options.options = ['--recurse']
+  source = sourceSets.main.resources.srcDirs
+  destinationDir = file(aritfactDocsDir.path + '/js/jsdoc')
+  //options.options = ['--recurse']
 }
 jsdocs.onlyIf {skipDoc == 'false' && skipJsDoc == 'false'}
 
@@ -74,9 +73,9 @@ javadoc {
   include 'de/braintags/**/*.java'
   destinationDir file(docsDir.absolutePath + '/apidocs')
 }
- javadocJar {
-     from javadoc.destinationDir // We need to reset this since we changed the output dir
- }
+javadocJar {
+  from javadoc.destinationDir // We need to reset this since we changed the output dir
+}
 
 task packageSource(type: Zip, group: 'documentation', description: 'Package all documentation for the project into a zip file'){
   dependsOn annotationProcessing
