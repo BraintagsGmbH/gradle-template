@@ -28,10 +28,10 @@ sourceSets {
 
 dependencies {
   compile group: 'io.vertx', name:'vertx-core', version:vertxVersion
+  compile group: 'io.vertx', name: 'vertx-docgen', version:vertxVersion
+
   testCompile group: 'io.vertx', name:'vertx-core', version:vertxVersion, classifier:'tests'
   testCompile group: 'io.vertx', name:'vertx-unit', version:vertxVersion
-  compile group: 'io.vertx', name: 'vertx-docgen', version:vertxVersion
-  compile group: 'io.vertx', name: 'vertx-dependencies', version:vertxVersion
 
   provided group: 'io.vertx', name:'vertx-codegen', version:vertxVersion
   provided group: 'io.vertx', name:'vertx-docgen', version:vertxVersion
