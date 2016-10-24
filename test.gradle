@@ -1,19 +1,7 @@
 // properties
-def skipTests          = rootProject.hasProperty('skipTests')?rootProject.skipTests:'false'
-def skipTestJar        = rootProject.hasProperty('skipTestJar')?rootProject.skipTestJar:'false'
-def ignoreFailedTest   = rootProject.hasProperty('ignoreFailedTest')?rootProject.ignoreFailedTest:false
-def skipSonar          = rootProject.hasProperty('skipSonar')?rootProject.skipSonar:'false'
-
-buildscript {
-  repositories {
-    maven {
-      url 'https://plugins.gradle.org/m2/'
-    }
-  }
-  dependencies {
-    classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2"
-  }
-}
+def skipTests           = project.hasProperty('skipTests')?project.skipTests:'false'
+def skipTestJar         = project.hasProperty('skipTestJar')?project.skipTestJar:'false'
+def ignoreFailedTests   = project.hasProperty('ignoreFailedTests')?project.ignoreFailedTests:false
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.11'
@@ -21,9 +9,6 @@ dependencies {
 }
 
 apply plugin: 'jacoco'
-apply plugin: org.sonarqube.gradle.SonarQubePlugin
-
-project.tasks["sonarqube"].onlyIf {skipSonar == 'false'}
 
 test {
   useJUnit()
@@ -35,7 +20,7 @@ test {
    systemProperty 'mailClientPassword', mailClientPassword
   }
 
-  test.ignoreFailures = ignoreFailedTest
+  test.ignoreFailures = ignoreFailedTests
 
   // show standard out and standard error of the test JVM(s) on the console
   testLogging.showStandardStreams = true
@@ -62,7 +47,7 @@ test {
 }
 test.onlyIf {skipTests == 'false'}
 
-task testjar(type: Jar, group: 'distribution', description: 'Create a jar containing all the javadocs'){
+task testjar(type: Jar, group: 'distribution', description: 'Create a jar containing all the tests'){
     classifier = 'tests'
 	  from sourceSets.test.allSource
 }

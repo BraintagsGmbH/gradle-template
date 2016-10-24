@@ -5,7 +5,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "net.researchgate:gradle-release:2.4.0"
+    classpath 'net.researchgate:gradle-release:2.4.0'
   }
 }
 
@@ -19,15 +19,8 @@ release {
   failOnCommitNeeded=false
 }
 
-beforeReleaseBuild {
-  // Remove the hash for release.useAutomaticVersion to work in CI
-  version = version.replaceAll(/([^-]*)-\d*-\d*-\d*_[^-]*(-SNAPSHOT)?/) {all, version, snapshot ->
-      version = version+snapshot
-     }
-}
-
 // call Soanaqube before release
-beforeReleaseBuild.dependsOn project.tasks["sonarqube"]
+beforeReleaseBuild.dependsOn project.tasks['sonarqube']
 
 // Upload archives as part of release process
 afterReleaseBuild.dependsOn uploadArchives

@@ -14,7 +14,7 @@ configurations.all {
         }
     }
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'de.braintags' && details.requested.version == '+') {
+        if (details.requested.group == 'de.braintags' && details.requested.version == btVertxVersion) {
             details.useVersion btVertxVersion
         }
     }
@@ -27,19 +27,19 @@ sourceSets {
 }
 
 dependencies {
-  compile group: 'io.vertx', name:'vertx-core', version:'+'
-  testCompile group: 'io.vertx', name:'vertx-core', version:'+', classifier:'tests'
-  testCompile group: 'io.vertx', name:'vertx-unit', version:'+'
-  compile group: 'io.vertx', name: 'vertx-docgen', version:'+'
-  compile group: 'io.vertx', name: 'vertx-dependencies', version:'+'
+  compile group: 'io.vertx', name:'vertx-core', version:vertxVersion
+  testCompile group: 'io.vertx', name:'vertx-core', version:vertxVersion, classifier:'tests'
+  testCompile group: 'io.vertx', name:'vertx-unit', version:vertxVersion
+  compile group: 'io.vertx', name: 'vertx-docgen', version:vertxVersion
+  compile group: 'io.vertx', name: 'vertx-dependencies', version:vertxVersion
 
-  provided group: 'io.vertx', name:'vertx-codegen', version:'+'
-  provided group: 'io.vertx', name:'vertx-docgen', version:'+'
-  provided group: 'io.vertx', name:'vertx-codetrans', version:'+'
-  provided group: 'io.vertx', name:'vertx-rx-java', version:'+'
-  provided group: 'io.vertx', name:'vertx-lang-groovy', version:'+'
-  provided group: 'io.vertx', name:'vertx-lang-js', version:'+'
-  provided group: 'io.vertx', name:'vertx-lang-ruby', version:'+'
+  provided group: 'io.vertx', name:'vertx-codegen', version:vertxVersion
+  provided group: 'io.vertx', name:'vertx-docgen', version:vertxVersion
+  provided group: 'io.vertx', name:'vertx-codetrans', version:vertxVersion
+  provided group: 'io.vertx', name:'vertx-rx-java', version:vertxVersion
+  provided group: 'io.vertx', name:'vertx-lang-groovy', version:vertxVersion
+  provided group: 'io.vertx', name:'vertx-lang-js', version:vertxVersion
+  provided group: 'io.vertx', name:'vertx-lang-ruby', version:vertxVersion
 }
 
 apply from: file(rootDir.path + '/gradle/vertx/docs.gradle')
@@ -52,8 +52,12 @@ test {
   exclude '**/BtVertxTestBase.class'
 }
 
-sonarqube {
-  properties {
-    property 'sonar.projectKey', project.group + '.vertx:' + project.artifactid
-}
+gradle.taskGraph.whenReady { graph ->
+    if (graph.hasTask('sonarqube')) {
+      sonarqube {
+        properties {
+          property 'sonar.projectKey', project.group + '.vertx:' + rootProject.artifactid
+        }
+      }
+    }
 }

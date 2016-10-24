@@ -15,25 +15,25 @@ uploadArchives {
       def sonatypeUsername = rootProject.hasProperty('sonatypeUsername')?rootProject.sonatypeUsername:''
       def sonatypePassword = rootProject.hasProperty('sonatypePassword')?rootProject.sonatypePassword:''
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+      repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
         authentication(userName: sonatypeUsername, password: sonatypePassword)
       }
 
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+      snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
         authentication(userName: sonatypeUsername, password: sonatypePassword)
       }
       pom.project {
-        name "${project.name}"
-        description "${project.projectDescription}"
-        url "https://github.com/BraintagsGmbH/${rootProject.githubProjectName}"
+        name '${project.name}'
+        description '${project.projectDescription}'
+        url 'https://github.com/BraintagsGmbH/${rootProject.githubProjectName}'
         scm {
-            connection "scm:git:git@github.com:BraintagsGmbH/${rootProject.githubProjectName}.git"
-            url "scm:git:git@github.com:BraintagsGmbH/${rootProject.githubProjectName}.git"
-            developerConnection "scm:git:git@github.com:BraintagsGmbH/${rootProject.githubProjectName}.git"
+            connection 'scm:git:git@github.com:BraintagsGmbH/${rootProject.githubProjectName}.git'
+            url 'scm:git:git@github.com:BraintagsGmbH/${rootProject.githubProjectName}.git'
+            developerConnection 'scm:git:git@github.com:BraintagsGmbH/${rootProject.githubProjectName}.git'
         }
         issueManagement {
             system 'github'
-            url "https://github.com/BraintagsGmbH/${rootProject.githubProjectName}/issues"
+            url 'https://github.com/BraintagsGmbH/${rootProject.githubProjectName}/issues'
         }
 
         licenses {

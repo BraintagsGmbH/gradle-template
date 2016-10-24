@@ -10,6 +10,7 @@ ext.githubProjectName = rootProject.name // Set this if Project name is not gith
 def skipDoc            = rootProject.hasProperty('skipDoc')?rootProject.skipDoc:'false'
 def javadocFileInclude = rootProject.hasProperty('javadocFileInclude')?rootProject.javadocFileInclude:'de/braintags/**/*.java'
 def useCompanyRepo     = rootProject.hasProperty('useCompanyRepo')?rootProject.useCompanyRepo:false
+def multiProject       = rootProject.hasProperty('multiProject')?rootProject.multiProject:'false'
 
 // set git version hash
 def versionOut = new ByteArrayOutputStream()
@@ -30,7 +31,7 @@ buildscript {
   }
 }
 
-allprojects {
+
   repositories {
       // private company repo makes no sense in an opensource environment
       if(useCompanyRepo) { // set useCompanyRepo=true in ~/.gradle/gradle.properties to use
@@ -38,24 +39,29 @@ allprojects {
               url "http://maven.bt-wl.net/nexus/content/groups/public/"
           }
       }
-
       mavenCentral()
       jcenter()
   }
-}
+
 apply plugin: nebula.plugin.dependencylock.DependencyLockPlugin
 
 dependencyLock {
     globalLockFile = project.rootDir.toURI().relativize(new File(projectDir.getAbsolutePath() + '/global.lock').toURI()).getPath()
 }
 
-if (version.contains("SNAPSHOT")){
-  version = version.replace('SNAPSHOT', versionOut.toString().trim() + '-SNAPSHOT')
+// if (version.contains("SNAPSHOT")){
+//   version = version.replace('SNAPSHOT', versionOut.toString().trim() + '-SNAPSHOT')
+// }
+
+
+apply from: file(rootDir.path + '/gradle/test.gradle')
+apply from: file(rootDir.path + '/gradle/maven.gradle')
+if (!multiProject) { // This need to be applied in the root project
+
+  apply from: file(rootDir.path + '/gradle/sonar.gradle')
+  apply from: file(rootDir.path + '/gradle/release.gradle')
 }
 
-apply from: file(rootDir.path + '/gradle/maven.gradle')
-apply from: file(rootDir.path + '/gradle/test.gradle')
-apply from: file(rootDir.path + '/gradle/release.gradle')
 
 ext.sharedManifest = manifest {
     attributes("Implementation-Title": project.artifactid,
