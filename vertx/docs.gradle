@@ -1,7 +1,7 @@
 // properties
 def docsDir           = rootProject.hasProperty('docsDir')?rootProject.docsDir:file(project.projectDir.absolutePath + '/src/docs')
 def aritfactDocsDir   = rootProject.hasProperty('aritfactDocsDir')?rootProject.aritfactDocsDir:file(docsDir.absolutePath + '/' + project.artifactid)
-def asciidocDir       = rootProject.hasProperty('asciidocDir')?rootProject.asciidocDir:file(docsDir.absolutePath + '/asciidoc')
+def asciidocDir       = rootProject.hasProperty('asciidocDir')?rootProject.asciidocDir:file(project.projectDir.absolutePath + '/src/docs' + '/asciidoc')
 def skipDoc           = rootProject.hasProperty('skipDoc')?rootProject.skipDoc:'false'
 def skipJsDoc         = rootProject.hasProperty('skipJsDoc')?rootProject.skipJsDoc:'true'
 def skipGroovyDoc     = rootProject.hasProperty('skipGroovyDoc')?rootProject.skipGroovyDoc:'true'
