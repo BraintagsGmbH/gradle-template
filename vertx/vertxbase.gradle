@@ -1,8 +1,11 @@
 apply from: rootDir.path + '/gradle/javaProject.gradle'
 
+apply plugin: 'eclipse'
+
 def vertxVersion      = rootProject.hasProperty('vertxVersion')?rootProject.vertxVersion:''
 def btVertxVersion    = rootProject.hasProperty('btVertxVersion')?rootProject.btVertxVersion:''
 def multiProject      = rootProject.hasProperty('multiProject')?rootProject.multiProject:false
+
 configurations {
     provided
 }
@@ -24,7 +27,12 @@ sourceSets {
     main.compileClasspath += configurations.provided
     test.compileClasspath += configurations.provided
     test.runtimeClasspath += configurations.provided
+    generated{
+        java.srcDir "${projectDir}/src/generated/java"
+    }
 }
+
+eclipse.classpath.plusConfigurations += [ configurations.provided ]
 
 dependencies {
   compile group: 'io.vertx', name:'vertx-core', version:vertxVersion
@@ -46,6 +54,11 @@ apply from: file(rootDir.path + '/gradle/vertx/docs.gradle')
 
 compileJava {
   dependsOn annotationProcessing
+  source    += sourceSets.generated.java
+    // specify javac arguments
+    options.compilerArgs = [
+            "-Acodetrans.output=${projectDir}/src/main"
+    ]
 }
 
 test {
