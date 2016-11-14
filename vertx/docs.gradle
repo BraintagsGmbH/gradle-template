@@ -29,7 +29,7 @@ task annotationProcessing(type: JavaCompile, group: 'build', description: 'Proce
    "-Amaven.version=${project.version}",
    "-proc:only",
    "-processor", "io.vertx.codegen.CodeGenProcessor,io.vertx.docgen.JavaDocGenProcessor,io.vertx.docgen.DocGenProcessor",
-   "-AoutputDirectory=${project.projectDir}/src/main"
+   "-AoutputDirectory=${project.projectDir}/src/docs"
   ]
 }
 
