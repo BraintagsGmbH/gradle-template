@@ -36,7 +36,6 @@ eclipse.classpath.plusConfigurations += [ configurations.provided ]
 
 dependencies {
   compile group: 'io.vertx', name:'vertx-core', version:vertxVersion
-  compile group: 'io.vertx', name: 'vertx-docgen', version:vertxVersion
 
   testCompile group: 'io.vertx', name:'vertx-core', version:vertxVersion, classifier:'tests'
   testCompile group: 'io.vertx', name:'vertx-unit', version:vertxVersion
