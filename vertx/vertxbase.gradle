@@ -36,6 +36,8 @@ eclipse.classpath.plusConfigurations += [ configurations.provided ]
 
 dependencies {
   compile group: 'io.vertx', name:'vertx-core', version:vertxVersion
+  compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
+  compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
 
   testCompile group: 'io.vertx', name:'vertx-core', version:vertxVersion, classifier:'tests'
   testCompile group: 'io.vertx', name:'vertx-unit', version:vertxVersion
