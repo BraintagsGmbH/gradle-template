@@ -1,0 +1,21 @@
+buildscript {
+  repositories { maven { url "https://plugins.gradle.org/m2/" } }
+  dependencies { classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1" }
+}
+
+apply plugin: nl.javadude.gradle.plugins.license.LicensePlugin
+
+license {
+  header = rootProject.file('gradle/license.header')
+  ext.year = Calendar.getInstance().get(Calendar.YEAR)
+  ext.company = 'Braintags GmbH'
+  ext.project = project.name
+
+  ignoreFailures true
+  skipExistingHeaders = project.hasProperty('updateLicense') ? !project.updateLicense : 'true'
+  dryRun = project.hasProperty('dryRun') ? project.dryRun : 'true'
+
+  include "**/*.java"
+  mapping { java='SLASHSTAR_STYLE' }
+}
+
