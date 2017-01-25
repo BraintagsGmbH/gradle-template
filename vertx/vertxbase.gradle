@@ -54,7 +54,6 @@ dependencies {
 apply from: file(rootDir.path + '/gradle/vertx/docs.gradle')
 
 compileJava {
-  dependsOn annotationProcessing
   source    += sourceSets.generated.java
     // specify javac arguments
     options.compilerArgs = [

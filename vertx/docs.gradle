@@ -17,21 +17,20 @@ buildscript {
   }
 }
 
-task annotationProcessing(type: JavaCompile, group: 'build', description: 'Process the sources using the vertx CodeGenProcessor and DocGenProcessor') { // codegen
-  source = sourceSets.main.java
-  classpath = configurations.compile + configurations.provided
-  destinationDir = file("${projectDir}/src/generated/java")
-  options.compilerArgs = [
-   "-XDignore.symbol.file",
-   "-Adocgen.output=${asciidocDir}/\$lang",
-   "-Amaven.groupId=${project.group}",
-   "-Amaven.artifactId=${project.artifactid}",
-   "-Amaven.version=${project.version}",
-   "-proc:only",
-   "-processor", "io.vertx.codegen.CodeGenProcessor,io.vertx.docgen.JavaDocGenProcessor,io.vertx.docgen.DocGenProcessor",
-   "-AoutputDirectory=${project.projectDir}/src/docs"
-  ]
-}
+task generateDocumentation(type: JavaCompile, group: "build", description: "Process the sources using the vertx CodeGenProcessor and DocGenProcessor") { // codegen
+    source = sourceSets.main.java
+    classpath = sourceSets.main.compileClasspath
+    destinationDir = project.file('src/docs/asciidoc')
+    options.compilerArgs = [
+    "-XDignore.symbol.file",
+    "-Adocgen.output=${project.projectDir}/src/docs/asciidoc/\$lang",
+    "-Amaven.groupId=${project.group}",
+    "-Amaven.artifactId=${project.name}",
+    "-Amaven.version=${project.version}",
+    "-proc:only",
+    "-processor", "io.vertx.docgen.JavaDocGenProcessor,io.vertx.docgen.DocGenProcessor",
+    ]
+  }
 
 apply plugin: com.eriwen.gradle.js.JsPlugin
 
@@ -51,7 +50,7 @@ groovydoc.onlyIf {skipDoc == 'false' && skipGroovyDoc == 'false'}
 
 apply plugin: org.asciidoctor.gradle.AsciidoctorPlugin
 asciidoctor {
-  dependsOn annotationProcessing
+  dependsOn generateDocumentation
   sourceDir = asciidocDir
   outputDir = aritfactDocsDir
   attributes 'source-highlighter': 'coderay',
@@ -67,7 +66,7 @@ asciidoctor {
 asciidoctor.onlyIf {skipDoc == 'false'}
 
 javadoc {
-  dependsOn annotationProcessing
+  dependsOn generateDocumentation
   exclude '**/package-info.java'
   exclude '**/impl/*'
   include 'de/braintags/**/*.java'
@@ -78,7 +77,6 @@ javadocJar {
 }
 
 task packageSource(type: Zip, group: 'documentation', description: 'Package all documentation for the project into a zip file'){
-  dependsOn annotationProcessing
   dependsOn groovydoc
   dependsOn javadoc
   dependsOn asciidoctor
