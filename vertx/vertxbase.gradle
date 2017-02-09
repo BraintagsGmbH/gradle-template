@@ -1,6 +1,11 @@
-apply from: rootDir.path + '/gradle/javaProject.gradle'
-
 apply plugin: 'eclipse'
+
+project.ext {
+  isIncludedBuild = gradle.parent != null
+  isEclipse = System.getProperty("eclipse.launcher") != null || gradle.startParameter.taskNames.contains('eclipse') || gradle.startParameter.taskNames.contains('cleanEclipse')
+}
+
+apply from: rootDir.path + '/gradle/javaProject.gradle'
 
 def vertxVersion      = rootProject.hasProperty('vertxVersion')?rootProject.vertxVersion:''
 def btVertxVersion    = rootProject.hasProperty('btVertxVersion')?rootProject.btVertxVersion:''

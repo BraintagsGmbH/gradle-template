@@ -35,8 +35,53 @@ test {
 }
 test.onlyIf {skipTests == 'false'}
 
+sourceSets {
+  if (!isEclipse) {
+    commonTest {
+      compileClasspath += main.output
+      compileClasspath += main.compileClasspath
+      runtimeClasspath += commonTest.output + commonTest.compileClasspath
+    }
+    test {
+      compileClasspath += commonTest.output
+      compileClasspath += commonTest.compileClasspath
+      runtimeClasspath += test.output + test.compileClasspath
+    }
+  }
+}
+
+task commonTestsJar(type: Jar, group:"build") {
+  classifier "commonTests"
+  if (isEclipse) {
+    from sourceSets.test.output
+  } else {
+    from sourceSets.commonTest.output
+  }
+}
+
+configurations {
+  commonTestCompile.extendsFrom compile
+  commonTestRuntime.extendsFrom runtime
+
+  testCompile.extendsFrom commonTestCompile
+  testRuntime.extendsFrom commonTestRuntime
+
+  commonTests.extendsFrom commonTestRuntime
+}
+
+artifacts.commonTests commonTestsJar
+
 task testjar(type: Jar, group: 'distribution', description: 'Create a jar containing all the tests'){
     classifier = 'tests'
-	  from sourceSets.test.allSource
+    if (isEclipse) {
+      from sourceSets.test.allSource
+    } else {
+      from sourceSets.commonTest.allSource
+    }
 }
 testjar.onlyIf {skipTestJar=='false'}
+
+eclipse {
+  classpath.plusConfigurations += [configurations.commonTestCompile]
+  classpath.plusConfigurations += [configurations.commonTestRuntime]
+}
