@@ -3,11 +3,6 @@ def skipTests           = project.hasProperty('skipTests')?project.skipTests:'fa
 def skipTestJar         = project.hasProperty('skipTestJar')?project.skipTestJar:'false'
 def ignoreFailedTests   = project.hasProperty('ignoreFailedTests')?project.ignoreFailedTests:false
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version:'4.11'
-    testCompile group: 'org.sonarsource.java', name: 'sonar-jacoco-listeners', version:'3.8'
-}
-
 apply plugin: 'jacoco'
 
 test {
@@ -70,6 +65,11 @@ configurations {
 }
 
 artifacts.commonTests commonTestsJar
+
+dependencies {
+    commonTestCompile group: 'junit', name: 'junit', version:'4.11'
+    testCompile group: 'org.sonarsource.java', name: 'sonar-jacoco-listeners', version:'3.8'
+}
 
 task testjar(type: Jar, group: 'distribution', description: 'Create a jar containing all the tests'){
     classifier = 'tests'
