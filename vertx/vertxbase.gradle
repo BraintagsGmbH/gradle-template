@@ -68,7 +68,6 @@ compileJava {
 
   
 tasks.withType(JavaCompile) {
-  	println "Added parameters to " + it
     options.compilerArgs << '-parameters'
 }
 
