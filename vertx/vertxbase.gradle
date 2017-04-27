@@ -32,9 +32,6 @@ sourceSets {
     main.compileClasspath += configurations.provided
     test.compileClasspath += configurations.provided
     test.runtimeClasspath += configurations.provided
-    generated{
-        java.srcDir "${projectDir}/src/generated/java"
-    }
 }
 
 eclipse.classpath.plusConfigurations += [ configurations.provided ]
@@ -47,25 +44,11 @@ dependencies {
   commonTestCompile group: 'io.vertx', name:'vertx-core', version:vertxVersion, classifier:'tests'
   commonTestCompile group: 'io.vertx', name:'vertx-unit', version:vertxVersion
 
-  provided group: 'io.vertx', name:'vertx-codegen', version:vertxVersion
   provided group: 'io.vertx', name:'vertx-docgen', version:vertxVersion
-  provided group: 'io.vertx', name:'vertx-codetrans', version:vertxVersion
-  provided group: 'io.vertx', name:'vertx-rx-java', version:vertxVersion //optional
-  provided group: 'io.vertx', name:'vertx-lang-groovy', version:vertxVersion
-  provided group: 'io.vertx', name:'vertx-lang-js', version:vertxVersion
 }
 
 apply from: file(rootDir.path + '/gradle/vertx/docs.gradle')
 
-compileJava {
-  source    += sourceSets.generated.java
-    // specify javac arguments
-    options.compilerArgs = [
-            "-Acodetrans.output=${projectDir}/src/main"
-    ]
-}
-
-  
 tasks.withType(JavaCompile) {
     options.compilerArgs << '-parameters'
 }
