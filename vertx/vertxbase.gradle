@@ -53,7 +53,6 @@ dependencies {
   provided group: 'io.vertx', name:'vertx-rx-java', version:vertxVersion //optional
   provided group: 'io.vertx', name:'vertx-lang-groovy', version:vertxVersion
   provided group: 'io.vertx', name:'vertx-lang-js', version:vertxVersion
-  provided group: 'io.vertx', name:'vertx-lang-ruby', version:vertxVersion //optional
 }
 
 apply from: file(rootDir.path + '/gradle/vertx/docs.gradle')
