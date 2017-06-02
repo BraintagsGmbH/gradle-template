@@ -9,7 +9,7 @@ ext.githubProjectName = rootProject.name // Set this if Project name is not gith
 // properties
 def skipDoc            = rootProject.hasProperty('skipDoc')?rootProject.skipDoc:'false'
 def javadocFileInclude = rootProject.hasProperty('javadocFileInclude')?rootProject.javadocFileInclude:'de/braintags/**/*.java'
-def useCompanyRepo     = rootProject.hasProperty('useCompanyRepo')?rootProject.useCompanyRepo:false
+def useCompanyRepo     = rootProject.hasProperty('useCompanyRepo')?rootProject.useCompanyRepo:true
 def multiProject       = rootProject.hasProperty('multiProject')?rootProject.multiProject:false
 
 // set git version hash
@@ -34,7 +34,7 @@ buildscript {
 
 repositories {
   // private company repo makes no sense in an opensource environment
-  if(useCompanyRepo) { // set useCompanyRepo=true in ~/.gradle/gradle.properties to use
+  if(useCompanyRepo) { // set useCompanyRepo=false in ~/.gradle/gradle.properties to disable
     maven {
       url 'http://maven.bt-wl.net/nexus/content/groups/public/'
     }
