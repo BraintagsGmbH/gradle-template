@@ -28,6 +28,11 @@ configurations.all {
     }
 }
 
+dependencyLock {
+  if (isIncludedBuild) 
+  	globalLockFile = '../global.lock'
+}
+
 sourceSets {
     main.compileClasspath += configurations.provided
     test.compileClasspath += configurations.provided
