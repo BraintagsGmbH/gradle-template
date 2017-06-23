@@ -22,6 +22,11 @@ exec {
 
 buildscript {
   repositories {
+    if(useCompanyRepo) { // set useCompanyRepo=false in ~/.gradle/gradle.properties to disable
+      maven {
+        url 'https://nexus.ps.bt.systems/repository/gradle/'
+      }
+    }
     maven {
       url 'https://plugins.gradle.org/m2/'
     }
@@ -36,7 +41,7 @@ repositories {
   // private company repo makes no sense in an opensource environment
   if(useCompanyRepo) { // set useCompanyRepo=false in ~/.gradle/gradle.properties to disable
     maven {
-      url 'http://maven.bt-wl.net/nexus/content/groups/public/'
+      url 'https://nexus.ps.bt.systems/repository/gradle/'
     }
   }
   mavenCentral()
@@ -106,5 +111,5 @@ artifacts {
 
 // Generate wrapper, which is distributed as part of source to alleviate the need of installing gradle
 task createWrapper(type: Wrapper) {
-  gradleVersion = '3.1'
+  gradleVersion = '3.5'
 }
