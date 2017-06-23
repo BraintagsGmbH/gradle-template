@@ -21,6 +21,7 @@ exec {
 }
 
 buildscript {
+  def useCompanyRepo     = rootProject.hasProperty('useCompanyRepo')?rootProject.useCompanyRepo:true
   repositories {
     if(useCompanyRepo) { // set useCompanyRepo=false in ~/.gradle/gradle.properties to disable
       maven {
