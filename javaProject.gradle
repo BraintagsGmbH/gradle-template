@@ -44,9 +44,10 @@ repositories {
     maven {
       url 'https://nexus.ps.bt.systems/repository/maven/'
     }
+  } else {
+	  mavenCentral()
+	  jcenter()
   }
-  mavenCentral()
-  jcenter()
 }
 
 apply plugin: nebula.plugin.dependencylock.DependencyLockPlugin
