@@ -3,7 +3,11 @@ def skipTests           = project.hasProperty('skipTests')?project.skipTests:'fa
 def skipTestJar         = project.hasProperty('skipTestJar')?project.skipTestJar:'false'
 def ignoreFailedTests   = project.hasProperty('ignoreFailedTests')?project.ignoreFailedTests:false
 
-apply plugin: 'jacoco'
+gradle.taskGraph.whenReady {
+   if (gradle.taskGraph.hasTask(":${project.name}:sonarqube")) {
+     apply plugin: "jacoco"   
+   }
+}
 
 test {
   useJUnit()
