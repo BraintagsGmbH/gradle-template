@@ -35,7 +35,6 @@ test {
 test.onlyIf {skipTests == 'false'}
 
 sourceSets {
-  if (!isEclipse) {
     commonTest {
       compileClasspath += main.output
       compileClasspath += main.compileClasspath
@@ -46,16 +45,11 @@ sourceSets {
       compileClasspath += commonTest.compileClasspath
       runtimeClasspath += test.output + test.compileClasspath
     }
-  }
 }
 
 task commonTestsJar(type: Jar, group:"build") {
   classifier "commonTests"
-  if (isEclipse) {
-    from sourceSets.test.output
-  } else {
-    from sourceSets.commonTest.output
-  }
+  from sourceSets.commonTest.output
 }
 
 configurations {
