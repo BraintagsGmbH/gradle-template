@@ -42,7 +42,7 @@ repositories {
   // private company repo makes no sense in an opensource environment
   if(useCompanyRepo) { // set useCompanyRepo=false in ~/.gradle/gradle.properties to disable
     maven {
-      url 'https://nexus.ps.bt.systems/repository/maven/'
+      url 'https://nexus.ps.bt.systems/repository/maven-central-releases/'
     }
   } else {
 	  mavenCentral()
