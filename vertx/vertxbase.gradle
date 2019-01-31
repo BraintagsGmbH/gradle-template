@@ -13,19 +13,6 @@ configurations {
     provided
 }
 
-configurations.all {
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'io.vertx') {
-            details.useVersion '+'
-        }
-    }
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'de.braintags' && details.requested.version == bt'+') {
-            details.useVersion bt'+'
-        }
-    }
-}
-
 dependencyLock {
   if (isIncludedBuild) 
   	globalLockFile = '../global.lock'
