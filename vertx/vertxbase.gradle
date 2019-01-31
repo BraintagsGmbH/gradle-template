@@ -7,8 +7,6 @@ project.ext {
 
 apply from: rootDir.path + '/gradle/javaProject.gradle'
 
-def vertxVersion      = rootProject.hasProperty('vertxVersion')?rootProject.vertxVersion:''
-def btVertxVersion    = rootProject.hasProperty('btVertxVersion')?rootProject.btVertxVersion:''
 def multiProject      = rootProject.hasProperty('multiProject')?rootProject.multiProject:false
 
 configurations {
@@ -18,12 +16,12 @@ configurations {
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'io.vertx') {
-            details.useVersion vertxVersion
+            details.useVersion '+'
         }
     }
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'de.braintags' && details.requested.version == btVertxVersion) {
-            details.useVersion btVertxVersion
+        if (details.requested.group == 'de.braintags' && details.requested.version == bt'+') {
+            details.useVersion bt'+'
         }
     }
 }
@@ -48,14 +46,14 @@ dependencyLock {
 eclipse.classpath.plusConfigurations += [ configurations.provided ]
 
 dependencies {
-  compile group: 'io.vertx', name:'vertx-core', version:vertxVersion
+  compile group: 'io.vertx', name:'vertx-core', version:'+'
   compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
   compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
 
-  commonTestCompile group: 'io.vertx', name:'vertx-core', version:vertxVersion, classifier:'tests'
-  commonTestCompile group: 'io.vertx', name:'vertx-unit', version:vertxVersion
+  commonTestCompile group: 'io.vertx', name:'vertx-core', version:'+', classifier:'tests'
+  commonTestCompile group: 'io.vertx', name:'vertx-unit', version:'+'
 
-  provided group: 'io.vertx', name:'vertx-docgen', version:vertxVersion
+  provided group: 'io.vertx', name:'vertx-docgen', version:'+'
 }
 
 apply from: file(rootDir.path + '/gradle/vertx/docs.gradle')
