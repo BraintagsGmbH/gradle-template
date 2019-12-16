@@ -33,14 +33,14 @@ dependencyLock {
 eclipse.classpath.plusConfigurations += [ configurations.provided ]
 
 dependencies {
-  compile group: 'io.vertx', name:'vertx-core', version:'3.6.3'
+  compile group: 'io.vertx', name:'vertx-core', version:'+'
   compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
   compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
 
-  commonTestCompile group: 'io.vertx', name:'vertx-core', version:'3.6.3', classifier:'tests'
-  commonTestCompile group: 'io.vertx', name:'vertx-unit', version:'3.6.3'
+  commonTestCompile group: 'io.vertx', name:'vertx-core', version:'+', classifier:'tests'
+  commonTestCompile group: 'io.vertx', name:'vertx-unit', version:'+'
 
-  provided group: 'io.vertx', name:'vertx-docgen', version:'3.6.3'
+  provided group: 'io.vertx', name:'vertx-docgen', version:'+'
 }
 
 apply from: file(rootDir.path + '/gradle/vertx/docs.gradle')
