@@ -28,6 +28,8 @@ buildscript {
         url 'https://nexus.ps.bt.systems/repository/gradle/'
       }
     }
+    	  mavenCentral()
+	  jcenter()
     maven {
       url 'https://plugins.gradle.org/m2/'
     }
