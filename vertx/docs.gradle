@@ -51,7 +51,7 @@ groovydoc.onlyIf {skipDoc == 'false' && skipGroovyDoc == 'false'}
 
 apply plugin: org.asciidoctor.gradle.AsciidoctorPlugin
 asciidoctor {
-  dependsOn generateDocumentation
+//  dependsOn generateDocumentation
   sourceDir = asciidocDir
   outputDir = aritfactDocsDir
   attributes 'source-highlighter': 'coderay',
@@ -67,7 +67,7 @@ asciidoctor {
 asciidoctor.onlyIf {skipDoc == 'false'}
 
 javadoc {
-  dependsOn generateDocumentation
+//  dependsOn generateDocumentation
   exclude '**/package-info.java'
   exclude '**/impl/*'
   include 'de/braintags/**/*.java'
