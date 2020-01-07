@@ -25,7 +25,7 @@ buildscript {
   repositories {
     if(useCompanyRepo) { // set useCompanyRepo=false in ~/.gradle/gradle.properties to disable
       maven {
-        url 'https://nexus.wl.bt.systems/repository/gradle/'
+        url 'http://jenkins.wl.bt.systems:8081/repository/gradle/'
       }
       mavenCentral()
     }
@@ -46,7 +46,7 @@ repositories {
   // private company repo makes no sense in an opensource environment
   if(useCompanyRepo) { // set useCompanyRepo=false in ~/.gradle/gradle.properties to disable
     //maven {
-      //url 'https://nexus.wl.bt.systems/repository/maven-central-releases/'
+      //url 'http://jenkins.wl.bt.systems:8081/repository/maven-central-releases/'
     //}
     	  mavenCentral()
 	  jcenter()
