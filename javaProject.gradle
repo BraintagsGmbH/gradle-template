@@ -27,7 +27,11 @@ buildscript {
       maven {
         url 'http://jenkins.wl.bt.systems:8081/repository/gradle/'
       }
+      mavenPlugins {
+        url 'https://plugins.gradle.org/m2/'
+      }
       mavenCentral()
+      jcenter()
     }
     	  mavenCentral()
 	  jcenter()
