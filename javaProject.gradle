@@ -49,14 +49,14 @@ buildscript {
 repositories {
   // private company repo makes no sense in an opensource environment
   if(useCompanyRepo) { // set useCompanyRepo=false in ~/.gradle/gradle.properties to disable
-    //maven {
-      //url 'http://jenkins.wl.bt.systems:8081/repository/maven-central-releases/'
-    //}
-    	  mavenCentral()
-	  jcenter()
-  } else {
-	  mavenCentral()
-	  jcenter()
+    maven {
+      url 'http://jenkins.wl.bt.systems:8081/repository/maven-central-releases/'
+    }
+  }
+  mavenCentral()
+  jcenter()
+  mavenPlugins {
+    url 'https://plugins.gradle.org/m2/'
   }
 }
 
