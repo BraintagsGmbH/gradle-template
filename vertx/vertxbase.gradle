@@ -13,10 +13,10 @@ configurations {
     provided
 }
 
-dependencyLock {
-  if (isIncludedBuild) 
-  	globalLockFile = '../global.lock'
-}
+//dependencyLock {
+//  if (isIncludedBuild) 
+//  	globalLockFile = '../global.lock'
+//}
 
 sourceSets {
     main.compileClasspath += configurations.provided
@@ -24,10 +24,10 @@ sourceSets {
     test.runtimeClasspath += configurations.provided
 }
 
-dependencyLock {
-  if (isIncludedBuild) 
-  	globalLockFile = '../global.lock'
-}
+//dependencyLock {
+//  if (isIncludedBuild) 
+//  	globalLockFile = '../global.lock'
+//}
  
 
 eclipse.classpath.plusConfigurations += [ configurations.provided ]
@@ -36,7 +36,8 @@ dependencies {
   compile group: 'io.vertx', name:'vertx-core', version:'3.6.3'
   compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.7'
   compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
-
+  compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
+  
   commonTestCompile group: 'io.vertx', name:'vertx-core', version:'3.6.3', classifier:'tests'
   commonTestCompile group: 'io.vertx', name:'vertx-unit', version:'3.6.3'
 
