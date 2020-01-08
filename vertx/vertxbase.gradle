@@ -13,10 +13,10 @@ configurations {
     provided
 }
 
-dependencyLock {
-  if (isIncludedBuild) 
-  	globalLockFile = '../global.lock'
-}
+//dependencyLock {
+//  if (isIncludedBuild) 
+//  	globalLockFile = '../global.lock'
+//}
 
 sourceSets {
     main.compileClasspath += configurations.provided
@@ -24,10 +24,10 @@ sourceSets {
     test.runtimeClasspath += configurations.provided
 }
 
-dependencyLock {
-  if (isIncludedBuild) 
-  	globalLockFile = '../global.lock'
-}
+//dependencyLock {
+//  if (isIncludedBuild) 
+//  	globalLockFile = '../global.lock'
+//}
  
 
 eclipse.classpath.plusConfigurations += [ configurations.provided ]

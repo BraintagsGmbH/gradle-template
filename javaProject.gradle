@@ -29,15 +29,15 @@ buildscript {
       }
       mavenCentral()
     }
-    	  mavenCentral()
-	  jcenter()
+        mavenCentral()
+    jcenter()
     maven {
       url 'https://plugins.gradle.org/m2/'
     }
     mavenCentral()
   }
   dependencies {
-    classpath 'com.netflix.nebula:gradle-dependency-lock-plugin:4.3.0'
+//    classpath 'com.netflix.nebula:gradle-dependency-lock-plugin:4.3.0'
   }
 }
 
@@ -48,19 +48,19 @@ repositories {
     //maven {
       //url 'https://nexus.ps.bt.systems/repository/maven-central-releases/'
     //}
-    	  mavenCentral()
-	  jcenter()
+        mavenCentral()
+    jcenter()
   } else {
-	  mavenCentral()
-	  jcenter()
+    mavenCentral()
+    jcenter()
   }
 }
 
-apply plugin: nebula.plugin.dependencylock.DependencyLockPlugin
+//apply plugin: nebula.plugin.dependencylock.DependencyLockPlugin
 
-dependencyLock {
-  globalLockFile = project.rootDir.toURI().relativize(new File(projectDir.getAbsolutePath() + '/global.lock').toURI()).getPath()
-}
+//dependencyLock {
+//  globalLockFile = project.rootDir.toURI().relativize(new File(projectDir.getAbsolutePath() + '/global.lock').toURI()).getPath()
+//}
 
 apply from: file(rootDir.path + '/gradle/test.gradle')
 apply from: file(rootDir.path + '/gradle/maven.gradle')
